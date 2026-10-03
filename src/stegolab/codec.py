@@ -34,7 +34,7 @@ def capacity(image: ImageArray, depth: int = 1, encrypted: bool = False) -> int:
     if depth not in (1, 2, 4):
         raise StegoError("Depth must be 1, 2 or 4")
     slots = max(0, image.shape[0] * image.shape[1] * 3 - HEADER_SLOTS)
-    return max(0, min(MAX_PAYLOAD, slots * depth // 8 - (16 if encrypted else 0)))
+    return int(max(0, min(MAX_PAYLOAD, slots * depth // 8 - (16 if encrypted else 0))))
 
 
 def _values(raw: bytes, depth: int) -> ImageArray:

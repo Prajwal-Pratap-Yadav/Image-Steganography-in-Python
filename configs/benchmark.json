@@ -1,0 +1,7 @@
+{
+  "seed": 20261003,
+  "height": 256,
+  "width": 256,
+  "payload_bytes": 2048,
+  "depths": [1, 2, 4]
+}

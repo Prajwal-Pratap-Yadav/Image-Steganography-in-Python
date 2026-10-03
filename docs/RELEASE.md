@@ -1,10 +1,12 @@
-# StegoLab 0.1.1 engineering preview
+# StegoLab 0.1.2 engineering preview
 
-Install the wheel with Python 3.11+ (`python -m pip install /path/to/stegolab-0.1.1-py3-none-any.whl`),
+Install the wheel with Python 3.11+ (`python -m pip install /path/to/stegolab-0.1.2-py3-none-any.whl`),
 or use the repository's hash-locked `make setup`. `stegolab --help` lists file-oriented commands.
 No PyPI publication is performed. Linux CI checks Python 3.11/3.12 and an independently installed wheel.
 
-This patch fixes repeated setup and isolates hash-locked dependency installation from shared caches.
+This patch separates the runtime CLI installation from developer tooling. Use `make setup` for the CLI demo
+and `make setup-dev` before tests, reproduction, packaging or security scans. Both paths retain hash verification
+and preserve an existing virtual environment. Installation time depends on network speed and package caches.
 
 The toolkit provides lossless PNG framing, binary independent extraction, bounded input/output behavior, optional AES-256-GCM/scrypt,
 separately keyed ordering, authentication and reproducible synthetic image distortion/pair analysis.

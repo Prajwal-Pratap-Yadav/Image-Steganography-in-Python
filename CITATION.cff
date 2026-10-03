@@ -6,7 +6,7 @@ authors:
   - family-names: Yadav
     given-names: Prajwal Pratap
     email: prajwalpratapyadav5@gmail.com
-version: 0.1.1
+version: 0.1.2
 date-released: 2026-10-03
 license: MIT
 repository-code: "https://github.com/Prajwal-Pratap-Yadav/Image-Steganography-in-Python"

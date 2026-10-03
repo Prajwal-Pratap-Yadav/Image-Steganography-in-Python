@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stegolab"
-version = "0.1.1"
+version = "0.1.2"
 description = "Lossless PNG payload experiments with measured distortion and explicit limits"
 readme = "README.md"
 requires-python = ">=3.11"

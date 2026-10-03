@@ -4,9 +4,9 @@ OUTPUT ?= .
 
 .PHONY: setup lint typecheck test run reproduce docs clean security build
 setup:
-	$(PYTHON) -m venv .venv
+	test -x $(PY) || $(PYTHON) -m venv .venv
 	$(PY) -m pip install --disable-pip-version-check --require-hashes -r requirements-bootstrap.lock
-	.venv/bin/uv pip install --python $(PY) --require-hashes -r requirements-dev.lock
+	.venv/bin/uv pip install --python $(PY) --link-mode copy --require-hashes -r requirements-dev.lock
 	.venv/bin/uv pip install --python $(PY) --no-deps --no-build-isolation -e .
 	$(PY) scripts/install_gitleaks.py
 	.venv/bin/pre-commit install

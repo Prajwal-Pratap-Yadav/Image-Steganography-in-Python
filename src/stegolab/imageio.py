@@ -6,7 +6,7 @@ import struct
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 
 from .codec import MAX_DIMENSION, MAX_PIXELS, ImageArray, validate_image
 from .errors import StegoError
@@ -41,8 +41,10 @@ def load_png(path: Path) -> ImageArray:
         with Image.open(io.BytesIO(raw)) as image:
             image.load()
             array = np.array(image, dtype=np.uint8)
-    except (UnidentifiedImageError, SyntaxError, Image.DecompressionBombError) as exc:
-        raise StegoError("Invalid PNG") from exc
+    except StegoError:
+        raise
+    except (OSError, SyntaxError, ValueError, Image.DecompressionBombError) as exc:
+        raise StegoError("Invalid PNG or oversized metadata") from exc
     validate_image(array)
     return array
 

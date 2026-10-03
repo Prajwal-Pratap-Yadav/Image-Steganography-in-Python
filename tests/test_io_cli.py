@@ -102,3 +102,15 @@ def test_password_bounds_and_encoding(tmp_path):
         p.write_bytes(raw)
         with pytest.raises(StegoError):
             password_file(p)
+
+
+def test_compressed_metadata_limit_is_a_clean_cli_failure(tmp_path):
+    source = tmp_path / "metadata.png"
+    metadata = PngImagePlugin.PngInfo()
+    metadata.add_itxt("fixture", "x" * (2 * 1024 * 1024), zip=True)
+    Image.new("RGB", (32, 32)).save(source, pnginfo=metadata)
+    with pytest.raises(StegoError, match="metadata"):
+        load_png(source)
+    result = cli("capacity", source)
+    assert result.returncode == 2
+    assert "Traceback" not in result.stderr

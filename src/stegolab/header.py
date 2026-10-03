@@ -55,9 +55,7 @@ class Header:
     def unpack(cls, raw: bytes) -> "Header":
         if len(raw) != HEADER_BYTES:
             raise StegoError("Truncated header")
-        magic, version, depth, flags, reserved, length, salt, nonce, digest = (
-            STRUCT.unpack(raw)
-        )
+        magic, version, depth, flags, reserved, length, salt, nonce, digest = STRUCT.unpack(raw)
         if magic != b"STGL" or version != 1 or reserved != 0:
             raise StegoError("Unknown payload format")
         h = cls(depth, flags, length, salt, nonce, digest)

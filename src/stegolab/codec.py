@@ -6,13 +6,13 @@ import secrets
 from dataclasses import replace
 
 import numpy as np
-from numpy.typing import NDArray
 from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from numpy.typing import NDArray
 
 from .crypto import derive, slots
 from .errors import StegoError
-from .header import ENCRYPTED, KEYED, HEADER_SLOTS, MAX_PAYLOAD, Header
+from .header import ENCRYPTED, HEADER_SLOTS, KEYED, MAX_PAYLOAD, Header
 
 ImageArray = NDArray[np.uint8]
 MAX_PIXELS = 1_048_576
@@ -83,11 +83,7 @@ def embed(
     else:
         body = payload
         raw = h.pack() + body
-        digest = (
-            hmac.digest(mac_key, raw, "sha256")
-            if keyed
-            else hashlib.sha256(raw).digest()
-        )
+        digest = hmac.digest(mac_key, raw, "sha256") if keyed else hashlib.sha256(raw).digest()
         h = replace(h, digest=digest)
     flat[:HEADER_SLOTS] = (flat[:HEADER_SLOTS] & 254) | _values(h.pack(), 1)
     values = _values(body, depth)
@@ -111,9 +107,7 @@ def extract(image: ImageArray, *, password: str | None = None) -> bytes:
         raise StegoError("Declared payload exceeds image capacity")
     if password is not None and not h.flags:
         raise StegoError("Password supplied for an unkeyed plaintext payload")
-    enc_key, order_key, mac_key = (
-        derive(password, h.salt) if h.flags else (b"", b"", b"")
-    )
+    enc_key, order_key, mac_key = derive(password, h.salt) if h.flags else (b"", b"", b"")
     positions = HEADER_SLOTS + slots(
         flat.size - HEADER_SLOTS, count, order_key if h.flags & KEYED else None
     )
@@ -125,9 +119,7 @@ def extract(image: ImageArray, *, password: str | None = None) -> bytes:
             raise StegoError("Password or payload authentication failed") from exc
     raw = replace(h, digest=bytes(32)).pack() + payload
     expected = (
-        hmac.digest(mac_key, raw, "sha256")
-        if h.flags & KEYED
-        else hashlib.sha256(raw).digest()
+        hmac.digest(mac_key, raw, "sha256") if h.flags & KEYED else hashlib.sha256(raw).digest()
     )
     if not hmac.compare_digest(h.digest, expected):
         raise StegoError("Payload integrity check failed")

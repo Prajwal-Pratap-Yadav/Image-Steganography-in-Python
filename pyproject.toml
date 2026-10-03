@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stegolab"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lossless PNG payload experiments with measured distortion and explicit limits"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -13,7 +13,7 @@ authors = [{name = "Prajwal Pratap Yadav", email = "prajwalpratapyadav5@gmail.co
 dependencies = ["numpy==2.3.3", "Pillow==12.3.0", "cryptography==50.0.2", "scipy==1.16.2", "scikit-image==0.26.0"]
 
 [project.optional-dependencies]
-dev = ["pytest==8.4.2", "pytest-cov==7.0.0", "hypothesis==6.168.3", "ruff==0.13.2", "mypy==1.18.2", "pre-commit==4.6.2", "build==1.3.0", "setuptools==80.9.0", "wheel==0.45.1", "pip-audit==2.9.0", "bandit==1.8.6", "matplotlib==3.10.6"]
+dev = ["pytest==8.4.2", "pytest-cov==7.0.0", "hypothesis==6.168.3", "ruff==0.13.2", "mypy==1.18.2", "pre-commit==4.6.2", "build==1.3.0", "setuptools==80.9.0", "wheel==0.45.1", "pip-audit==2.9.0", "pip==26.2.1", "bandit==1.8.6", "matplotlib==3.10.6"]
 
 [project.scripts]
 stegolab = "stegolab.cli:main"

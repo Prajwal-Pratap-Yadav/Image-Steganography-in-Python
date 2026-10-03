@@ -5,7 +5,7 @@ Embed binary payloads in lossless PNGs, extract independently, and measure disto
 [![CI](https://img.shields.io/github/actions/workflow/status/Prajwal-Pratap-Yadav/Image-Steganography-in-Python/ci.yml?branch=main&style=flat-square&labelColor=0b1220&label=CI)](https://github.com/Prajwal-Pratap-Yadav/Image-Steganography-in-Python/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-34d399?style=flat-square&labelColor=0b1220)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-38bdf8?style=flat-square&labelColor=0b1220)](pyproject.toml)
-[![Status](https://img.shields.io/badge/status-0.1.0_preview-a78bfa?style=flat-square&labelColor=0b1220)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-0.1.1_preview-a78bfa?style=flat-square&labelColor=0b1220)](CHANGELOG.md)
 
 ![Generated cover, actual embedded PNG, and amplified absolute difference](docs/assets/hero.png)
 

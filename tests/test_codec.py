@@ -11,11 +11,12 @@ from stegolab.header import HEADER_SLOTS, Header
 @pytest.mark.parametrize("depth", [1, 2, 4])
 def test_exact_capacity_alpha_and_overflow(depth):
     im = np.random.default_rng(9).integers(0, 256, (32, 32, 4), dtype=np.uint8)
+    original = im.copy()
     payload = bytes(capacity(im, depth))
     out = embed(im, payload, depth)
     assert extract(out) == payload
     np.testing.assert_array_equal(im[:, :, 3], out[:, :, 3])
-    np.testing.assert_array_equal(im, im.copy())
+    np.testing.assert_array_equal(im, original)
     with pytest.raises(StegoError, match="capacity"):
         embed(im, payload + b"x", depth)
 

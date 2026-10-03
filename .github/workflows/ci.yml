@@ -1,0 +1,131 @@
+name: Verify and release
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: make setup
+      - run: make lint typecheck test run docs
+      - run: make reproduce OUTPUT=reports/local/reproduced
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: verification-${{ matrix.python }}
+          path: |
+            coverage.xml
+            reports/local/
+          if-no-files-found: error
+  security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: make setup security
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: security
+          path: reports/local/*.json
+          if-no-files-found: error
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: make setup build
+      - name: Run independently installed wheel
+        run: |
+          python -m venv .wheelcheck
+          .wheelcheck/bin/pip install --require-hashes -r requirements.lock
+          .wheelcheck/bin/pip install --no-deps dist/*.whl
+          cd /tmp
+          "$GITHUB_WORKSPACE/.wheelcheck/bin/python" "$GITHUB_WORKSPACE/scripts/demo.py" --output "$GITHUB_WORKSPACE/reports/local/wheel-demo"
+      - run: .venv/bin/python scripts/package_reports.py
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: preview-packages
+          path: dist/
+          if-no-files-found: error
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'Prajwal-Pratap-Yadav/Image-Steganography-in-Python'
+    needs: [verify, security, package]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: make setup build
+      - run: .venv/bin/python scripts/package_reports.py
+      - name: Create scoped roadmap milestone
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/release_community.py
+      - name: Tag verified main and publish preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          write_ok() { test "$GITHUB_REPOSITORY" = 'Prajwal-Pratap-Yadav/Image-Steganography-in-Python'; }
+          write_ok
+          version=$(.venv/bin/python -c 'from stegolab import __version__; print(__version__)')
+          tag="v$version"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$GITHUB_SHA"
+          git config user.name 'Prajwal Pratap Yadav'
+          git config user.email 'prajwalpratapyadav5@gmail.com'
+          if git rev-parse "$tag^{commit}" >/dev/null 2>&1; then
+            test "$(git rev-parse "$tag^{commit}")" = "$GITHUB_SHA"
+          else
+            git tag -a "$tag" "$GITHUB_SHA" -m "StegoLab $version engineering preview"
+            write_ok
+            git push origin "refs/tags/$tag"
+          fi
+          if gh release view "$tag" --repo Prajwal-Pratap-Yadav/Image-Steganography-in-Python >/dev/null 2>&1; then
+            echo 'Release already exists for the verified tag.'
+          else
+            write_ok
+            gh release create "$tag" --repo Prajwal-Pratap-Yadav/Image-Steganography-in-Python --verify-tag --prerelease --title "StegoLab $version engineering preview" --notes-file docs/RELEASE.md dist/*.whl dist/*.tar.gz dist/*measurements.zip dist/SHA256SUMS
+          fi

@@ -1,0 +1,30 @@
+{
+  "git_sha": "f751b2ac65143582f2eed2009a4b0990311af08a",
+  "date_utc": "2026-10-03T04:08:46.083674+00:00",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "python": "3.12.14",
+  "cpu": "x86_64",
+  "logical_cpus": 9,
+  "config": {
+    "seed": 20261003,
+    "height": 256,
+    "width": 256,
+    "payload_bytes": 2048,
+    "depths": [
+      1,
+      2,
+      4
+    ]
+  },
+  "config_sha256": "74514d8bad14b9a876ef70292c2581cd90a42d81772b988653bef5c2d4f1a9a7",
+  "payload_sha256": "1ef1fb4de32234a1985d11025d2858aaa2f75c12602082804191122de79fe475",
+  "versions": {
+    "numpy": "2.3.3",
+    "Pillow": "12.3.0",
+    "cryptography": "50.0.2",
+    "scipy": "1.16.2",
+    "scikit-image": "0.26.0",
+    "matplotlib": "3.10.6"
+  },
+  "scope": "Synthetic even-valued cover; exploratory statistics, no detector accuracy."
+}

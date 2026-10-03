@@ -79,6 +79,7 @@ See [architecture](docs/architecture.md).
 ## Results and limitations
 
 ✅ **Measured synthetic experiment:** generated cover, public random payload, sequential and keyed plaintext.
+Each case uses a generated 256 × 256 RGB image and 2,048 payload bytes. Capacity reports the maximum available space.
 Source [f751b2a](https://github.com/Prajwal-Pratap-Yadav/Image-Steganography-in-Python/commit/f751b2ac65143582f2eed2009a4b0990311af08a);
 command `make reproduce`; exact values and environment: [CSV](reports/metrics.csv), [manifest](reports/run_manifest.json), [evidence](docs/EVIDENCE.md).
 

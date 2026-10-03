@@ -26,7 +26,7 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
           cache-dependency-path: requirements-dev.lock
-      - run: make setup
+      - run: make setup-dev
       - run: make lint typecheck test run docs
       - run: make reproduce OUTPUT=reports/local/reproduced
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -48,7 +48,7 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: requirements-dev.lock
-      - run: make setup security
+      - run: make setup-dev security
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: security
@@ -66,7 +66,7 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: requirements-dev.lock
-      - run: make setup build
+      - run: make setup-dev build
       - name: Run independently installed wheel
         run: |
           python -m venv .wheelcheck
@@ -97,7 +97,7 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: requirements-dev.lock
-      - run: make setup build
+      - run: make setup-dev build
       - run: .venv/bin/python scripts/package_reports.py
       - name: Create scoped roadmap milestone
         env:

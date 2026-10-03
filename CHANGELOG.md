@@ -2,6 +2,13 @@
 
 Keep a Changelog conventions; versions describe this package, not historical scripts.
 
+## [0.1.1] - 2026-10-03
+
+### Fixed
+
+- Repeated setup preserves the existing virtual environment instead of overlaying its pinned pip installation.
+- Hash-locked development packages are copied into the environment, keeping dependency auditing isolated from shared caches.
+
 ## [0.1.0] - 2026-10-03
 
 ### Added

@@ -1,5 +1,5 @@
 {
-  "package_version": "0.1.0",
+  "package_version": "0.1.1",
   "magic": "STGL",
   "format_version": 1,
   "struct": ">4sBBBBQ16s12s32s",

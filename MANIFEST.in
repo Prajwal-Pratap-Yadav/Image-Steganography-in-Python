@@ -1,4 +1,4 @@
-include LICENSE Makefile CITATION.cff CHANGELOG.md SECURITY.md CONTRIBUTING.md CODE_OF_CONDUCT.md requirements*.lock
+include LICENSE Makefile CITATION.cff CHANGELOG.md SECURITY.md CONTRIBUTING.md CODE_OF_CONDUCT.md requirements*.lock requirements*.in
 recursive-include docs *.md *.png
 recursive-include reports *.json *.csv *.png
 recursive-include scripts *.py

@@ -2,12 +2,14 @@ PYTHON ?= python3
 PY = .venv/bin/python
 OUTPUT ?= .
 
-.PHONY: setup lint typecheck test run reproduce docs clean security build
+.PHONY: setup setup-dev lint typecheck test run reproduce docs clean security build
 setup:
 	test -x $(PY) || $(PYTHON) -m venv .venv
 	$(PY) -m pip install --disable-pip-version-check --require-hashes -r requirements-bootstrap.lock
-	.venv/bin/uv pip install --python $(PY) --link-mode copy --require-hashes -r requirements-dev.lock
+	.venv/bin/uv pip install --python $(PY) --link-mode copy --require-hashes -r requirements.lock
 	.venv/bin/uv pip install --python $(PY) --no-deps --no-build-isolation -e .
+setup-dev: setup
+	.venv/bin/uv pip install --python $(PY) --link-mode copy --require-hashes -r requirements-dev.lock
 	$(PY) scripts/install_gitleaks.py
 	.venv/bin/pre-commit install
 lint:

@@ -2,6 +2,14 @@
 
 Keep a Changelog conventions; versions describe this package, not historical scripts.
 
+## [0.1.2] - 2026-10-03
+
+### Changed
+
+- The CLI quickstart installs only hash-locked runtime packages and build prerequisites.
+- `make setup-dev` adds developer tools, the verified scanner and staged hooks; CI uses this complete environment.
+- The bootstrap lock has a small pinned source file for reproducible regeneration.
+
 ## [0.1.1] - 2026-10-03
 
 ### Fixed

@@ -1,0 +1,27 @@
+{
+  "git_sha": "d7cdbc45d400959ea946abe49ec3a4933be3c436",
+  "clone_seconds": 11.318691976999958,
+  "setup_and_demo_seconds": 42.58600932000002,
+  "total_seconds": 53.904701296999974,
+  "fresh_public_clone": true,
+  "fresh_virtual_environment": true,
+  "uv_cache_initially_empty": true,
+  "pip_cache_disabled": true,
+  "scope": "One measured environment; network installation timing varies. Not a universal promise.",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "python": "3.12.14",
+  "package_version": "0.1.2",
+  "initial_developer_setup": {
+    "clone_seconds": 9.331283268999982,
+    "setup_and_demo_seconds": 66.13245709099999,
+    "total_seconds": 75.46374035999997,
+    "fresh_clone": true,
+    "fresh_virtual_environment": true,
+    "package_download_caches": "current refreshed workspace defaults",
+    "prior_workspace_setup_and_demo_seconds": 63.283,
+    "prior_workspace_log": "lost when workspace refreshed; timing retained in conversation only"
+  },
+  "ten_second_gate": "README inspection: clear purpose, real hero, bounded features and explicit synthetic scope. This is engineering inspection, not a recruited-user study.",
+  "sixty_second_gate": "Public clone, runtime setup and independent-process demo completed in 53.905s with an empty uv cache and pip cache disabled. One environment observation; network speeds vary.",
+  "five_minute_gate": "Source, structure, 39 tests, lint, strict types, docs, wheel build, security and owner-authored granular history inspected. Remote final CI/release verification remains external."
+}

@@ -1,0 +1,48 @@
+{
+  "package_version": "0.1.0",
+  "magic": "STGL",
+  "format_version": 1,
+  "struct": ">4sBBBBQ16s12s32s",
+  "header_bytes": 76,
+  "header_slots": 608,
+  "depths": [
+    1,
+    2,
+    4
+  ],
+  "flags": {
+    "encrypted": 1,
+    "keyed": 2
+  },
+  "max_payload_bytes": 524288,
+  "max_image_bytes": 8388608,
+  "max_pixels": 1048576,
+  "max_dimension": 4096,
+  "scrypt": {
+    "n": 16384,
+    "r": 8,
+    "p": 1,
+    "derived_bytes": 96
+  },
+  "key_slices": {
+    "aes_gcm": [
+      0,
+      32
+    ],
+    "ordering": [
+      32,
+      64
+    ],
+    "hmac": [
+      64,
+      96
+    ]
+  },
+  "aes_gcm_nonce_bytes": 12,
+  "aes_gcm_tag_bytes": 16,
+  "ordering": "Partial Fisher-Yates; ChaCha20 zero 16-byte initial counter/nonce; unbiased uint64 LE rejection",
+  "password_utf8_bytes": [
+    8,
+    1024
+  ]
+}

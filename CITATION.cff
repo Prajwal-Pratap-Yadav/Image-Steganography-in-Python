@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it."
+title: "StegoLab: lossless PNG payload experiments"
+type: software
+authors:
+  - family-names: Yadav
+    given-names: Prajwal Pratap
+    email: prajwalpratapyadav5@gmail.com
+version: 0.1.0
+date-released: 2026-10-03
+license: MIT
+repository-code: "https://github.com/Prajwal-Pratap-Yadav/Image-Steganography-in-Python"

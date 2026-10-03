@@ -1,0 +1,18 @@
+name: Bug report
+description: Report a reproducible failure without private payloads or credentials.
+labels: [bug]
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps and expected behavior
+      description: Use generated fixtures and include versions, OS and exact commands.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: Redact credentials, personal data and private paths.
+    validations:
+      required: true

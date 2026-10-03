@@ -1,0 +1,11 @@
+name: Feature proposal
+description: Propose behavior with acceptance criteria and limits.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Problem, proposed behavior and validation
+      description: Explain the trade-off and link existing roadmap work where relevant.
+    validations:
+      required: true
